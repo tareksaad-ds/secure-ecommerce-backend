@@ -1,9 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 
-const port = process.env.PORT ?? 8080;
+const port = process.env.PORT ?? 8000;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // يحذف أي حقل غير موجود في DTO
+      forbidNonWhitelisted: true, // يطلع خطأ لو فيه حقل غير موجود في DTO
+      transform: true, // يحوّل JSON للكلاسات
+    }),
+  );
   await app.listen(port);
 }
 bootstrap();
