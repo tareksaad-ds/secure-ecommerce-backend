@@ -1,8 +1,10 @@
-import { Controller, Delete, Get, Post, Put, Body, Param } from '@nestjs/common';
+import { Controller, Delete, Get, Post, Put, Body, Param, UseGuards, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
-import type { User } from '@prisma/client';
+import type { Role, User } from '@prisma/client';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from 'src/auth/guards/auth.guard';
+import { JwtPayload } from 'src/auth/jwt.strategy';
 
 @Controller('users')
 export class UsersController {
@@ -16,10 +18,18 @@ export class UsersController {
 
   //Get All Users
   @Get()
-  async getAllUsers(): Promise<User[]> {
+  async getAllUsers(): Promise<
+    { id: number; name: string | null; email: string; createdAt: Date; role: Role }[]
+  > {
     return this.usersService.getAllUsers();
   }
 
+  //Get ME
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  getProfile(@Req() req: Request & { user: JwtPayload }) {
+    return req.user; // جاي من validate() في jwt.strategy.ts
+  }
   //Get User By Id
   @Get(':id')
   async getUserById(@Param('id') id: number): Promise<User> {
@@ -28,7 +38,7 @@ export class UsersController {
 
   //Update User
   @Put(':id')
-  async updateUser(@Param('id') id: number, @Body() data: UpdateUserDto): Promise<User> {
+  async updateUser(@Param('id') id: number, @Body() data: UpdateUserDto) {
     return this.usersService.updateUser(id, data);
   }
 

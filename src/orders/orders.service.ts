@@ -9,8 +9,8 @@ export class OrdersService {
   constructor(private prisma: PrismaService) {}
 
   //Create Order
-  async createOrder(data: CreateOrderDto): Promise<Order> {
-    return this.prisma.order.create({ data });
+  async createOrder(data: CreateOrderDto, userId: number): Promise<Order> {
+    return this.prisma.order.create({ data: { ...data, userId } });
   }
 
   //Get All Orders

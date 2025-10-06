@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as argon2 from 'argon2';
@@ -15,8 +15,18 @@ export class UsersService {
   }
 
   //Get All Users
-  async getAllUsers(): Promise<User[]> {
-    return this.prisma.user.findMany();
+  async getAllUsers(): Promise<
+    { id: number; name: string | null; email: string; createdAt: Date; role: Role }[]
+  > {
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+        role: true,
+      },
+    });
   }
 
   //Get User By Id
@@ -25,8 +35,11 @@ export class UsersService {
   }
 
   //Update User
-  async updateUser(id: number, data: UpdateUserDto): Promise<User> {
-    return this.prisma.user.update({ where: { id }, data });
+  async updateUser(id: number, data: UpdateUserDto) {
+    const updatedUser = await this.prisma.user.update({ where: { id }, data });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (updatedUser as any).password;
+    return updatedUser;
   }
 
   //Delete User
