@@ -10,4 +10,19 @@ export class CreateProductDto {
 
   @IsNumber()
   price!: number;
+
+  @IsNumber()
+  originalPrice!: number;
+
+  @IsString()
+  @IsOptional()
+  imageUrl?: string;
+
+  @IsString()
+  @IsOptional()
+  category?: string;
+
+  @IsNumber()
+  @IsOptional()
+  discount?: number;
 }

@@ -32,7 +32,7 @@ export class AuthService {
   }
 
   //Login User
-  async login(data: LoginDto): Promise<{ access_token: string }> {
+  async login(data: LoginDto) {
     const user = await this.prisma.user.findUnique({ where: { email: data.email } });
     if (!user) {
       throw new BadRequestException('User not found! Check your email');
@@ -49,7 +49,8 @@ export class AuthService {
       name: user.name,
       role: user.role,
     });
-
-    return { access_token: token };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (user as any).password;
+    return { access_token: token, user };
   }
 }

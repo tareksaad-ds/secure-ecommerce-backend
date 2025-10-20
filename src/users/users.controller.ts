@@ -28,7 +28,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   getProfile(@Req() req: Request & { user: JwtPayload }) {
-    return req.user; // جاي من validate() في jwt.strategy.ts
+    return req.user;
   }
   //Get User By Id
   @Get(':id')
@@ -46,5 +46,12 @@ export class UsersController {
   @Delete(':id')
   async deleteUser(@Param('id') id: number): Promise<User> {
     return this.usersService.deleteUser(id);
+  }
+
+  //Get Me
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  getMe(@Req() req: Request & { user: JwtPayload }) {
+    return req.user;
   }
 }
