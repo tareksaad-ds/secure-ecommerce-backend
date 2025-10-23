@@ -8,7 +8,7 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors({
-    origin: 'https://secure-ecommerce-frontend.vercel.app', // Allow all origins in development
+    origin: '*', // Allow all origins in development
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
