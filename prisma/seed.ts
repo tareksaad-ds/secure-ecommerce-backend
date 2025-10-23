@@ -74,8 +74,7 @@ async function main() {
       description: 'Wireless keyboard with ergonomic design and long battery life',
       price: 49.99,
       originalPrice: 49.99,
-      imageUrl:
-        'https://unsplash.com/photos/black-and-orange-computer-keyboard-KYw1eUx1J7Y?w=500&h=400&fit=crop',
+      imageUrl: 'https://unsplash.com/photos/black-and-orange-computer-keyboard-KYw1eUx1J7Y',
       category: 'Home & Office',
       discount: 0,
     },
@@ -93,8 +92,7 @@ async function main() {
       description: 'Digital camera with 24MP sensor and 4K video recording',
       price: 299.99,
       originalPrice: 299.99,
-      imageUrl:
-        'https://unsplash.com/photos/black-and-silver-pentax-camera-SXjTAlW1kLc?w=500&h=400&fit=crop',
+      imageUrl: 'https://unsplash.com/photos/black-and-silver-pentax-camera-SXjTAlW1kLc',
       category: 'Photography',
       discount: 0,
     },
@@ -122,7 +120,7 @@ async function main() {
       price: 1999.99,
       originalPrice: 1999.99,
       imageUrl:
-        'https://unsplash.com/photos/black-flat-screen-tv-turned-on-showing-game-qDLLP0yP7FU?w=500&h=400&fit=crop',
+        'https://unsplash.com/photos/black-flat-screen-tv-turned-on-showing-game-qDLLP0yP7FU',
       category: 'Electronics',
       discount: 0,
     },
@@ -146,6 +144,7 @@ async function main() {
 
   const totalProducts = await prisma.product.count();
   console.log(`✅ Seeding completed! Total products: ${totalProducts}`);
+  // }
 }
 
 main()

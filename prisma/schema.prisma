@@ -12,34 +12,35 @@ model User {
   email     String   @unique
   password  String
   name      String?
-  role      Role     @default(USER)
   createdAt DateTime @default(now())
-  orders    Order[]
+  role      Role     @default(USER)
 }
 
 model Product {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String?
-  price       Float
+  id            Int      @id @default(autoincrement())
+  name          String
+  description   String?
+  price         Float
   originalPrice Float
-  imageUrl String?
-  category String?
-  discount Float? @default(0)
-  createdAt   DateTime @default(now())
-  orderItems  Order[]
+  imageUrl      String?
+  category      String?
+  discount      Float?   @default(0)
+  createdAt     DateTime @default(now())
+  orders        Order[]  @relation("OrderProducts")
 }
 
 model Order {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  productId Int
-  quantity  Int      @default(1)
-  createdAt DateTime @default(now())
-  product   Product  @relation(fields: [productId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  createdAt   DateTime  @default(now())
+  totalAmount Float
+  productIds  Int[]
+  products    Product[] @relation("OrderProducts")
 }
+
+
+
 enum Role {
   USER
   ADMIN
-}   
+}
